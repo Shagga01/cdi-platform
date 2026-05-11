@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.database.database import engine, Base
+from app.database.database import Base, engine
 from app.models.student import Student
+from app.routes.student import router as student_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -15,6 +16,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(student_router)
 
 
 @app.get("/")
