@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.database.database import Base, engine
 from app.models.student import Student
-from app.routes.student import router as student_router
+from app.api.v1.routes.student_routes import router as student_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -17,11 +17,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(student_router)
-
-
 @app.get("/")
 def root():
     return {
         "message": "CDI Backend Running Successfully"
     }
+
+app.include_router(student_router)

@@ -15,7 +15,7 @@ export default function HomePage() {
 
   async function fetchStudents() {
     try {
-      const response = await fetch("http://127.0.0.1:8000/students");
+      const response = await fetch("http://127.0.0.1:8000/api/v1/students");
       const data = await response.json();
       setStudents(data);
     } catch (error) {
@@ -29,7 +29,7 @@ export default function HomePage() {
 
   async function createStudent() {
     try {
-      const response = await fetch("http://127.0.0.1:8000/students", {
+      const response = await fetch("http://127.0.0.1:8000/api/v1/students", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
