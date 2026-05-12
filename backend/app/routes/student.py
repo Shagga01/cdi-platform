@@ -6,7 +6,7 @@ from app.models.student import Student
 from app.schemas.student import StudentCreate, StudentResponse
 
 router = APIRouter(
-    prefix="/students",
+    prefix="/api/v1/students",
     tags=["Students"]
 )
 
@@ -19,10 +19,14 @@ def get_db():
 
 @router.get("/", response_model=list[StudentResponse])
 def get_students(db: Session = Depends(get_db)):
-    return db.query(Student).all()
+    students = db.query(Student).all()
+    return students
 
 @router.post("/", response_model=StudentResponse)
-def create_student(student: StudentCreate, db: Session = Depends(get_db)):
+def create_student(
+    student: StudentCreate,
+    db: Session = Depends(get_db)
+):
     new_student = Student(
         name=student.name,
         email=student.email
