@@ -2,27 +2,19 @@
 
 import { useState } from "react";
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [email, setEmail] =
-    useState("");
-
-  const [password, setPassword] =
-    useState("");
-
-  async function handleLogin() {
-
+  async function handleRegister() {
     try {
-
       const response = await fetch(
-        "http://127.0.0.1:8000/auth/login",
+        "http://127.0.0.1:8000/auth/register",
         {
           method: "POST",
-
           headers: {
             "Content-Type": "application/json",
           },
-
           body: JSON.stringify({
             email,
             password,
@@ -33,45 +25,24 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (response.ok) {
+        alert("Registration Successful");
 
-        localStorage.setItem(
-          "access_token",
-          data.access_token
-        );
-
-        console.log(
-          "TOKEN SAVED:",
-          data.access_token
-        );
-
-        alert("Login Successful");
-
-        window.location.href =
-          "/dashboard";
-
+        window.location.href = "/login";
       } else {
-
-        alert(data.detail);
-
+        alert(data.detail || "Registration failed");
       }
-
     } catch (error) {
-
       console.error(error);
 
-      alert("Login failed");
-
+      alert("Something went wrong");
     }
   }
 
   return (
-
     <main className="flex min-h-screen items-center justify-center">
-
       <div className="border p-10 rounded-lg w-full max-w-md">
-
         <h1 className="text-4xl font-bold mb-6">
-          CDI Login
+          CDI Register
         </h1>
 
         <input
@@ -95,15 +66,12 @@ export default function LoginPage() {
         />
 
         <button
-          onClick={handleLogin}
+          onClick={handleRegister}
           className="bg-black text-white px-4 py-3 rounded w-full"
         >
-          Login
+          Register
         </button>
-
       </div>
-
     </main>
-
   );
 }
